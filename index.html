@@ -3,6 +3,53 @@
   <head>
     <meta charset="UTF-8">
     <title>Hello World!</title>
+    <script>
+    window.onload = function () {
+
+    var dps = []; // dataPoints
+    var chart = new CanvasJS.Chart("chartContainer", {
+    	title :{
+    		text: "Dynamic Data"
+    	},
+    	axisY: {
+    		includeZero: false
+    	},
+    	data: [{
+    		type: "line",
+    		dataPoints: dps
+    	}]
+    });
+
+    var xVal = 0;
+    var yVal = 100;
+    var updateInterval = 1000;
+    var dataLength = 20; // number of dataPoints visible at any point
+
+    var updateChart = function (count) {
+
+    	count = count || 1;
+
+    	for (var j = 0; j < count; j++) {
+    		yVal = yVal +  Math.round(5 + Math.random() *(-5-5));
+    		dps.push({
+    			x: xVal,
+    			y: yVal
+    		});
+    		xVal++;
+    	}
+
+    	if (dps.length > dataLength) {
+    		dps.shift();
+    	}
+
+    	chart.render();
+    };
+
+    updateChart(dataLength);
+    setInterval(function(){updateChart()}, updateInterval);
+
+    }
+    </script>
   </head>
   <body>
     <h1>Hello World!</h1>
@@ -10,9 +57,93 @@
     We are using Node.js <script>document.write(process.versions.node)</script>,
     Chromium <script>document.write(process.versions.chrome)</script>,
     and Electron <script>document.write(process.versions.electron)</script>
+	<button id="zero">0</button>
+	<button id="one">1</button>
+	<button id="two">2</button>
+	<button id="three">3</button>
+	<button id="four">4</button>
+	<button id="five">5</button>
+	<button id="six">6</button>
+	<button id="seven">7</button>
+	<button id="eight">8</button>
+	<button id="nine">9</button>
+  <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+	<!--<canvas id="speedChart" width="600" height="400"></canvas>-->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
+  <!--
+
+  The original non-dynamic graph.
+
+  Replaced with live graph.
+  
+  <script>
+		var speedCanvas = document.getElementById("speedChart");
+
+		Chart.defaults.global.defaultFontFamily = "Lato";
+		Chart.defaults.global.defaultFontSize = 18;
+
+		var dataFirst = {
+			label: "Car A - Speed (mph)",
+			data: [0, 59, 75, 20, 20, 55, 40],
+			lineTension: 0.3,
+			fill: false,
+			borderColor: 'red',
+			backgroundColor: 'transparent',
+			pointBorderColor: 'red',
+			pointBackgroundColor: 'lightgreen',
+			pointRadius: 5,
+			pointHoverRadius: 15,
+			pointHitRadius: 30,
+			pointBorderWidth: 2,
+			pointStyle: 'rect'
+		  };
+
+		var dataSecond = {
+			label: "Car B - Speed (mph)",
+			data: [20, 15, 60, 60, 65, 30, 70],
+			lineTension: 0.3,
+			fill: false,
+			borderColor: 'purple',
+			backgroundColor: 'transparent',
+			pointBorderColor: 'purple',
+			pointBackgroundColor: 'lightgreen',
+			pointRadius: 5,
+			pointHoverRadius: 15,
+			pointHitRadius: 30,
+			pointBorderWidth: 2
+		  };
+
+		var speedData = {
+		  labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"],
+		  datasets: [dataFirst, dataSecond]
+		};
+
+		var chartOptions = {
+		  legend: {
+			display: true,
+			position: 'top',
+			labels: {
+			  boxWidth: 80,
+			  fontColor: 'black'
+			}
+		  }
+		};
+
+		var lineChart = new Chart(speedCanvas, {
+		  type: 'line',
+		  data: speedData,
+		  options: chartOptions
+		});
+	</script>
+
+-->
+	<script src="./view.js"></script>
   </body>
 
+
   <script>
+
     // You can also require other files to run in this process
     require('./dist/renderer.js')
   </script>
